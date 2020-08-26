@@ -15,7 +15,7 @@ import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
 
-export class App extends Component {
+export default class App extends Component {
 
   render(props) {
     return (
