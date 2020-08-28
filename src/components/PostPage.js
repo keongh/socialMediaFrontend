@@ -21,7 +21,7 @@ export default class PostPage extends Component {
   commentHandler(props) {
     const { match: { params } }  = this.props;
     console.log('submitted post');
-    Axios.get(`/posts/${params.id}/`, {
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/${params.id}/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       console.log("Data: ", res.data);
@@ -32,7 +32,7 @@ export default class PostPage extends Component {
 
   componentDidMount(props) {
     const { match: { params } } = this.props;
-    Axios.get(`/posts/${params.id}`, {
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts/${params.id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
       })
       .then(res => {

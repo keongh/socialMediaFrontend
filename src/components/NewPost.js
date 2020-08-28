@@ -21,7 +21,7 @@ export default class NewPost extends Component {
 
   handleSubmit(props) {
     console.log('Creating post: ' + this.state.newPost);
-    Axios.post("/posts", {
+    Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/posts`, {
         "contents": this.state.newPost
       },
       { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }

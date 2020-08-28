@@ -23,7 +23,7 @@ export default class Registration extends Component {
   }
 
   handleSubmit(event) {
-    axios.post("/register", {
+    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/register`, {
       "userName": this.state.email,
       "password": this.state.password
     },

@@ -14,7 +14,7 @@ export default class Feed extends Component {
   }
 
   componentDidMount(props) {
-    Axios.get("/posts", {
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       console.log(res);

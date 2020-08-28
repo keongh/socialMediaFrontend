@@ -28,11 +28,11 @@ class Dashboard extends Component {
   }
 
   deleteHandler(id) {
-    Axios.delete(`/posts/${id}`, {
+    Axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/posts/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then(res => {
       console.log(res);
-      Axios.get('/posts', {
+      Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
       }).then(res => {
         this.feedElement.current.setState({ data: res.data });
@@ -46,7 +46,7 @@ class Dashboard extends Component {
 
   postHandler() {
     console.log('submitted post');
-    Axios.get("/posts", {
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       console.log(res);
@@ -62,7 +62,7 @@ class Dashboard extends Component {
   }
 
   getUsername() {
-    Axios.get(`/user/${localStorage.id}`, {
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/${localStorage.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       this.setState({userName: res.data.userName});

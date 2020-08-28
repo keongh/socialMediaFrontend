@@ -12,7 +12,7 @@ export default class NewComment extends Component {
   }
 
   handleSubmit(props) {
-    Axios.post(`/posts/${this.props.id}/comments`, {
+    Axios.post(`${process.env.REACT_APP_API_ENDPOINT}/posts/${this.props.id}/comments`, {
         "contents": this.state.newComment
       },
       { headers: {Authorization: `Bearer ${localStorage.getItem('token')}` }
