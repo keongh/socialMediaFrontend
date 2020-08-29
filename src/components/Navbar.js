@@ -23,9 +23,6 @@ export default class Navbar extends Component {
               <Link to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link to="/register" className="nav-link">Create account</Link>
-            </li>
-            <li className="nav-item">
               <Link to="/dashboard" className="nav-link">My Profile</Link>
             </li>
             <button type="submit" className="btn btn-primary mr-auto" onClick={() => { this.handleLogout() }}>Logout</button>
