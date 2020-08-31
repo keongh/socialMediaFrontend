@@ -27,6 +27,9 @@ export default class Navbar extends Component {
             </li>
             <button type="submit" className="btn btn-primary mr-auto" onClick={() => { this.handleLogout() }}>Logout</button>
           </ul>
+          <ul className="navbar-nav navbar-right">
+            <li className="nav-item">Signed in as {this.props.userName}</li>
+          </ul>
         </nav>
       </div>
     );

@@ -66,13 +66,14 @@ class Dashboard extends Component {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       this.setState({userName: res.data.userName});
+      console.log(`username: ${this.state.userName}`);
     }).catch(err => {
       console.log("Error accessing server: ", err);
     });
   }
 
   componentDidMount(props) {
-    if (!this.stateUsername) {
+    if (!this.state.userName) {
       this.getUsername();
     }
   }
@@ -88,7 +89,7 @@ class Dashboard extends Component {
       <div className="container">
 
         <div className="fixed-top">
-          <Navbar history={this.props.history}/>
+          <Navbar history={this.props.history} userName={this.state.userName} />
         </div>
 
         <div className="container">
