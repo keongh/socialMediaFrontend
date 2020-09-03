@@ -29,9 +29,19 @@ export default class Registration extends Component {
     },
     { withCredentials: true }).then(response => {
       console.log("registration res: ", response);
-    }).catch(error => {
-      console.log("registration error: ", error);
-    })
+      axios.post(`${process.env.REACT_APP_API_ENDPOINT}/login`, {
+        "username": this.state.email,
+        "password": this.state.password
+      },
+      { withCredentials: true }).then(res => {
+        localStorage.setItem('token', res.data.jwt);
+        localStorage.setItem('id', res.data.id);
+        window.location.href = '/dashboard';
+      }).catch(err => {
+        console.log('Login error: ' + err);
+        alert('Could not log user in');
+      });
+    });
     event.preventDefault();
   }
 
