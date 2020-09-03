@@ -49,7 +49,7 @@ export default class PostPage extends Component {
       return (
         <div>
           <Navbar />
-          <h3>{this.state.data.postedBy}</h3>
+          <h3>{this.state.data.author.userName}</h3>
           <h6>{this.state.data.contents}</h6>
           <div>
             <NewComment ref={this.newCommentElement} action={this.commentHandler} id={params.id}/>

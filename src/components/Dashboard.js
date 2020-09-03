@@ -104,7 +104,7 @@ class Dashboard extends Component {
 
           <NewPost ref={this.newPostElement} action={this.postHandler}/>
 
-          <Feed ref={this.feedElement} deleteHandler={this.deleteHandler}/>
+          <Feed ref={this.feedElement} deleteHandler={this.deleteHandler} updateHandler={this.postHandler}/>
 
         </div>
       </div>
