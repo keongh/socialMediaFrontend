@@ -9,7 +9,8 @@ export default class Feed extends Component {
 
     this.state = {
       loaded: false,
-      data: []
+      data: [],
+      following: []
     }
   }
 
@@ -20,6 +21,12 @@ export default class Feed extends Component {
       console.log(res);
       this.setState({ loaded: true });
       this.setState({ data: res.data });
+    });
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/${localStorage.getItem('id')}/following`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then(res => {
+      this.setState({ following: res.data });
+      console.log('Following users: ' + res.data.map(user => user.id));
     });
   }
 
@@ -32,13 +39,14 @@ export default class Feed extends Component {
         <div>
           { this.state.data.map((obj, index) => {
               let likedBy = obj.likes.map(item => item.id);
-              let followedBy = obj.author.followers.map(item => item.id);
+              let following = this.state.following.map(user => user.id)
+                .includes(obj.author.id);
               return <Post text={obj.contents} author={obj.author}
               deleteHandler={this.props.deleteHandler} id={obj.postId}
               updateHandler={this.props.updateHandler}
               followHandler={this.props.followUser}
               liked={likedBy.includes(Number(localStorage.getItem('id')))}
-              followed={followedBy.includes(Number(localStorage.getItem("id")))}
+              followed={following}
               myPost={obj.author.id === Number(localStorage.getItem("id"))} />;
           })}
         </div>

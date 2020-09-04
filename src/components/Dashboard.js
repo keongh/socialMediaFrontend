@@ -45,7 +45,6 @@ class Dashboard extends Component {
   }
 
   postHandler() {
-    console.log('submitted post');
     Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/posts`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
@@ -53,6 +52,11 @@ class Dashboard extends Component {
       this.feedElement.current.setState({ data: res.data });
       this.newPostElement.current.setState({ newPost: "" });
     });
+    Axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/${localStorage.getItem('id')}/following`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
+    }).then(res => {
+      this.feedElement.current.setState({ following: res.data });
+    })
   }
 
   handleLogout(props) {

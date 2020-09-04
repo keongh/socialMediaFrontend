@@ -9,6 +9,7 @@ export default class Navbar extends Component {
 
   handleLogout(props) {
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     this.props.history.push('/');
     console.log('You are logged out!');
     this.forceUpdate();
