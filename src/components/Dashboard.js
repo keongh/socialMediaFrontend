@@ -18,7 +18,8 @@ class Dashboard extends Component {
 
     this.state = {
       userName: "",
-      posted: false
+      posted: false,
+      loggedIn: false
     }
 
     if (!localStorage.token) {
@@ -70,9 +71,13 @@ class Dashboard extends Component {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     }).then(res => {
       this.setState({userName: res.data.userName});
+      this.setState({loggedIn: true});
       console.log(`username: ${this.state.userName}`);
     }).catch(err => {
-      console.log("Error accessing server: ", err);
+      alert(err);
+      localStorage.removeItem('token');
+      localStorage.removeItem('id');
+      this.props.history.push('/');
     });
   }
 
@@ -89,30 +94,39 @@ class Dashboard extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-
-        <div className="fixed-top">
-          <Navbar history={this.props.history} userName={this.state.userName} />
-        </div>
-
+    if (this.state.loggedIn) {
+      return (
         <div className="container">
 
-          <div className="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-          <img className="mr-3" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-outline.svg" width="48" height="48"></img>
-            <div className="lh-100">
-              <h6 className="mb-0 text-white lh-100">BootStrap</h6>
-              <small>Since 2011</small>
-            </div>
+          <div className="fixed-top">
+            <Navbar history={this.props.history} userName={this.state.userName} />
           </div>
 
-          <NewPost ref={this.newPostElement} action={this.postHandler}/>
+          <div className="container">
 
-          <Feed ref={this.feedElement} deleteHandler={this.deleteHandler} updateHandler={this.postHandler}/>
+            <div className="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+            <img className="mr-3" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-outline.svg" width="48" height="48"></img>
+              <div className="lh-100">
+                <h6 className="mb-0 text-white lh-100">BootStrap</h6>
+                <small>Since 2011</small>
+              </div>
+            </div>
 
+            <NewPost ref={this.newPostElement} action={this.postHandler} />
+
+            <Feed ref={this.feedElement} deleteHandler={this.deleteHandler} updateHandler={this.postHandler} />
+
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    else {
+      return (
+        <div>
+        </div>
+      );
+    }
   }
+
 }
 export default withRouter(Dashboard);

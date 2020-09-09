@@ -26,7 +26,6 @@ export default class Feed extends Component {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}`}
     }).then(res => {
       this.setState({ following: res.data });
-      console.log('Following users: ' + res.data.map(user => user.id));
     });
   }
 
