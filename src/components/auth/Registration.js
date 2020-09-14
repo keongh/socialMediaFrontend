@@ -53,6 +53,10 @@ export default class Registration extends Component {
           console.log('Login error: ' + err);
           alert('Could not log user in');
         });
+      }).catch(err => {
+        if (err.response.status === 409) {
+          this.setState({ registrationErrors: { user: 'Email is already in use' }});
+        }
       });
     }
     event.preventDefault();
@@ -73,6 +77,7 @@ export default class Registration extends Component {
               required
             />
             <label htmlFor="email">Email address</label>
+            <div className="text-danger">{this.state.registrationErrors.user}</div>
           </div>
 
           <div className="form-group">
