@@ -9,7 +9,7 @@ export default class Registration extends Component {
       email: "",
       password: "",
       password_confirmation: "",
-      registrationErrors: ""
+      registrationErrors: {}
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,26 +22,39 @@ export default class Registration extends Component {
     });
   }
 
+  validatePassword() {
+    if (this.state.password !== this.state.password_confirmation) {
+      this.setState({ registrationErrors:
+        { password: 'Passwords must match!' }
+      });
+      return false;
+    }
+    return true;
+  }
+
   handleSubmit(event) {
-    axios.post(`${process.env.REACT_APP_API_ENDPOINT}/register`, {
-      "userName": this.state.email,
-      "password": this.state.password
-    },
-    { withCredentials: true }).then(response => {
-      console.log("registration res: ", response);
-      axios.post(`${process.env.REACT_APP_API_ENDPOINT}/login`, {
-        "username": this.state.email,
+    if (this.validatePassword()) {
+      this.setState({ registrationErrors: {} });
+      axios.post(`${process.env.REACT_APP_API_ENDPOINT}/register`, {
+        "userName": this.state.email,
         "password": this.state.password
       },
-      { withCredentials: true }).then(res => {
-        localStorage.setItem('token', res.data.jwt);
-        localStorage.setItem('id', res.data.id);
-        window.location.href = '/dashboard';
-      }).catch(err => {
-        console.log('Login error: ' + err);
-        alert('Could not log user in');
+      { withCredentials: true }).then(response => {
+        console.log("registration res: ", response);
+        axios.post(`${process.env.REACT_APP_API_ENDPOINT}/login`, {
+          "username": this.state.email,
+          "password": this.state.password
+        },
+        { withCredentials: true }).then(res => {
+          localStorage.setItem('token', res.data.jwt);
+          localStorage.setItem('id', res.data.id);
+          window.location.href = '/dashboard';
+        }).catch(err => {
+          console.log('Login error: ' + err);
+          alert('Could not log user in');
+        });
       });
-    });
+    }
     event.preventDefault();
   }
 
@@ -84,6 +97,7 @@ export default class Registration extends Component {
               required
             />
             <label htmlFor="password_confirmation">Confirm Password</label>
+            <div className="text-danger">{this.state.registrationErrors.password}</div>
           </div>
 
           <button type="submit" className="btn btn-primary btn-lg btn-block">Register</button>

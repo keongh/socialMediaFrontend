@@ -6,7 +6,7 @@ export default class Home extends Component {
   render(props) {
     return (
       <div>
-        <h1>My Twitter Knockoff</h1>
+        <h1>My Twitter Clone</h1>
         <Login />
         <p>Need an account?</p>
         <a href="/register">Sign up</a>

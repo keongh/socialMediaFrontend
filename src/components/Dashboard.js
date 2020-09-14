@@ -105,10 +105,12 @@ class Dashboard extends Component {
           <div className="container">
 
             <div className="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
-            <img className="mr-3" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-outline.svg" width="48" height="48"></img>
+              <div className="logo-bg mr-3">
+                <img src="https://img.icons8.com/nolan/64/bird.png" width="48" height="48"></img>
+              </div>
               <div className="lh-100">
-                <h6 className="mb-0 text-white lh-100">BootStrap</h6>
-                <small>Since 2011</small>
+                <h6 className="mb-0 text-white lh-100">My Twitter Clone</h6>
+                <small>It's not twitter!</small>
               </div>
             </div>
 
