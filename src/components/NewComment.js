@@ -19,7 +19,8 @@ export default class NewComment extends Component {
     }).then(res => {
       console.log(res);
       this.setState({
-        submitted: true
+        submitted: true,
+        newComment: ""
       });
       this.props.action();
     });
