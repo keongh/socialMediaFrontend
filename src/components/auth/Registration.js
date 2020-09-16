@@ -9,7 +9,8 @@ export default class Registration extends Component {
       email: "",
       password: "",
       password_confirmation: "",
-      registrationErrors: {}
+      registrationErrors: {},
+      registering: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,7 +26,8 @@ export default class Registration extends Component {
   validatePassword() {
     if (this.state.password !== this.state.password_confirmation) {
       this.setState({ registrationErrors:
-        { password: 'Passwords must match!' }
+        { password: 'Passwords must match!' },
+        registering: false
       });
       return false;
     }
@@ -33,6 +35,7 @@ export default class Registration extends Component {
   }
 
   handleSubmit(event) {
+    this.setState({ registering: true });
     if (this.validatePassword()) {
       this.setState({ registrationErrors: {} });
       axios.post(`${process.env.REACT_APP_API_ENDPOINT}/register`, {
@@ -55,14 +58,32 @@ export default class Registration extends Component {
         });
       }).catch(err => {
         if (err.response.status === 409) {
-          this.setState({ registrationErrors: { user: 'Email is already in use' }});
+          this.setState({
+            registrationErrors: { user: 'Email is already in use' },
+            registering: false
+          });
         }
       });
     }
     event.preventDefault();
   }
 
+  setRegisterButton() {
+    if (this.state.registering === true) {
+      return (
+        <button type="submit" className="btn btn-secondary btn-log btn-block" disabled>
+          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Registering...
+        </button>
+      );
+    }
+    else {
+      return <button type="submit" className="btn btn-primary btn-lg btn-block">Register</button>;
+    }
+  }
+
   render() {
+    let registerButton = this.setRegisterButton();
     return (
       <div>
         <h1>Create an account</h1>
@@ -105,7 +126,7 @@ export default class Registration extends Component {
             <div className="text-danger">{this.state.registrationErrors.password}</div>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg btn-block">Register</button>
+          {registerButton}
 
         </form>
       </div>

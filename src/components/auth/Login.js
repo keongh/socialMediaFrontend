@@ -9,7 +9,8 @@ export default class Login extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loggingIn: "false"
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +24,7 @@ export default class Login extends Component {
   }
 
   handleSubmit(event) {
+    this.setState({ loggingIn: true });
     axios.post(`${process.env.REACT_APP_API_ENDPOINT}/login`, {
       "username": this.state.email,
       "password": this.state.password
@@ -35,12 +37,28 @@ export default class Login extends Component {
         console.log('Stored token: ', localStorage.token);
         this.forceUpdate();
       }).catch(err => {
-      alert('Login failed. Please try again.');
+        this.setState({ loggingIn: false });
+        alert('Login failed. Please try again.');
     });
     event.preventDefault();
   }
 
+  setLoginButton() {
+    if (this.state.loggingIn === true) {
+      return (
+        <button type="submit" className="btn btn-secondary btn-lg btn-block" disabled>
+          <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+        </button>
+      );
+    }
+    else {
+      return <button type="submit" className="btn btn-primary btn-lg btn-block">Login</button>;
+    }
+  }
+
   render(props) {
+    let loginButton = this.setLoginButton();
     if (localStorage.token === undefined) {
       return (
         <div>
@@ -70,7 +88,7 @@ export default class Login extends Component {
               <label htmlFor="password">Password</label>
             </div>
 
-            <button type="submit" className="btn btn-primary btn-lg btn-block">Login</button>
+          {loginButton}
           </form>
         </div>
       );
