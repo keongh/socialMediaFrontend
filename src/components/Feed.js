@@ -46,7 +46,9 @@ export default class Feed extends Component {
               followHandler={this.props.followUser}
               liked={likedBy.includes(Number(localStorage.getItem('id')))}
               followed={following}
-              myPost={obj.author.id === Number(localStorage.getItem("id"))} />;
+              myPost={obj.author.id === Number(localStorage.getItem("id"))}
+              nLikes={likedBy.length}
+              nComments={obj.comments.length} />;
           })}
         </div>
       </div>
